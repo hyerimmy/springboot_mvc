@@ -1,1 +1,9 @@
 # TODO (Database 접속 정보 추가)
+# Use root/example as user/password credentials
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mvc_schema?serverTimezone=Asia/Seoul
+    username: hyerm
+    password: 1234
