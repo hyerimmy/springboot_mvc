@@ -2,9 +2,11 @@ package com.nhn.commerce.controller
 
 import com.nhn.commerce.model.Product
 import com.nhn.commerce.service.ProductService
+//import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Update
+//import org.graalvm.compiler.debug.DebugOptions.Log
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -35,8 +37,30 @@ class ProductController(
         return "add"
     }
     @PostMapping("/product/addPro")
-    fun addProductPro(productName: String , salePrice:Int):String{
-        productService.addProductPro(productName= "상품명",salePrice = 0,LocalDateTime.now()) // 널일 경우 초기값 설정!!!!!
+    fun addProductPro(productName: String, salePrice:String):String{
+
+        // 초기값 지정
+        var productName2:String = "기본상품"
+        var salePrice2:Int = 1000
+        if(productName!=""){
+            productName2=productName
+        }
+        if(salePrice!=""){
+            salePrice2=salePrice.toInt()
+        }
+
+
+        // extension
+        fun Int.isPositive(): Boolean = this > 0
+        fun Int.isNotPositive(): Boolean = !isPositive()
+
+        //양수가 아닌 salePrice가 들어오면
+        if(salePrice2.isNotPositive()){
+            println("가격이 음수입니다.")
+            throw Error("가격이 음수입니다.")
+        }
+
+        productService.addProductPro(productName2,salePrice2,LocalDateTime.now()) // 널일 경우 초기값 설정!!!!!
         println("productName : "+productName)
         println("salePrice : "+salePrice)
         return "redirect:/product"
@@ -49,10 +73,21 @@ class ProductController(
         return "update"
     }
     @PostMapping("/product/updatePro")
-    fun updateProductPro(productName: String, salePrice:Int, productNo:Int):String{
-        productService.updateProductPro(productName,salePrice,LocalDateTime.now(), productNo)
-        println("productName : "+productName)
-        println("salePrice : "+salePrice)
+    fun updateProductPro(productName: String, salePrice:String, productNo:Int):String{
+
+        // 초기값 지정
+        var productName2:String = "default"
+        var salePrice2:Int = 0
+        if(productName!=""){
+            productName2=productName
+        }
+        if(salePrice!=""){
+            salePrice2=salePrice.toInt()
+        }
+
+
+        productService.updateProductPro(productName2,salePrice2,LocalDateTime.now(), productNo)
+
         return "redirect:/product"
     }
 
