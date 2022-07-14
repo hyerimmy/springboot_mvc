@@ -16,7 +16,7 @@ class ProductController(
 ) {
     @GetMapping("/product")
     fun getProductList(model: Model): String {
-        model.addAttribute("productList", productService.findProductList()) // DB에서 받아서 productList로 받겠다
+        model.addAttribute("productList", productService.findProductList()) // DB에서 받아서 productList로 받겠다,,
         return "product" // product.html 반환
     }
 
@@ -35,20 +35,14 @@ class ProductController(
         return "add"
     }
     @PostMapping("/product/addPro")
-    fun addProductPro(productName: String, salePrice:Int):String{
-
-        productService.addProductPro(productName,salePrice,LocalDateTime.now())
+    fun addProductPro(productName: String , salePrice:Int):String{
+        productService.addProductPro(productName= "상품명",salePrice = 0,LocalDateTime.now()) // 널일 경우 초기값 설정!!!!!
         println("productName : "+productName)
         println("salePrice : "+salePrice)
         return "redirect:/product"
     }
 
     // TODO (상품 수정 기능 + Exception 처리)
-//    @GetMapping("/product/update/{productNo}")
-//    fun updateProduct(@PathVariable("productNo") productNo:Int, model: Model) :String{
-//        model.addAttribute("dto",productService.findProductList().read(productNo))
-//        return "update"
-//    }
     @GetMapping("/product/update/{productNo}")
     fun updateProduct(model: Model, @PathVariable("productNo") productNo:Int):String{
         model.addAttribute("product", productService.findProduct(productNo))
