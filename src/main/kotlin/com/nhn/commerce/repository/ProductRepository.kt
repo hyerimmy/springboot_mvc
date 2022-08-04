@@ -7,6 +7,9 @@ import java.time.LocalDateTime
 @Mapper
 interface ProductRepository {
     @Select("SELECT * FROM product")
+    fun findCartList(): List<Product>
+
+    @Select("SELECT * FROM product")
     fun findProductList(): List<Product>
 
 

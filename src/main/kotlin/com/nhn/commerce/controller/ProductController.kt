@@ -1,21 +1,28 @@
 package com.nhn.commerce.controller
 
-import com.nhn.commerce.model.Product
-import com.nhn.commerce.service.ProductService
 //import jdk.nashorn.internal.runtime.regexp.joni.Config.log
-import org.apache.ibatis.annotations.Delete
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Update
 //import org.graalvm.compiler.debug.DebugOptions.Log
+import com.nhn.commerce.service.ProductService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import java.time.LocalDateTime
 
 @Controller
 class ProductController(
     private val productService: ProductService,
 ) {
+
+    // <--- cake.zip temp
+    @GetMapping("/users/cart")
+    fun getCartList(model: Model): String {
+        model.addAttribute("cartList", productService.findCartList())
+        return "cart" // product.html 반환
+    }
+    // cake.zip temp --->
+
     @GetMapping("/product")
     fun getProductList(model: Model): String {
         model.addAttribute("productList", productService.findProductList()) // DB에서 받아서 productList로 받겠다,,

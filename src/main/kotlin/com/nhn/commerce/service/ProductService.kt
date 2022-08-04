@@ -9,6 +9,11 @@ import java.time.LocalDateTime
 class ProductService(
     private val productRepository: ProductRepository,
 ) {
+
+    // <--- cake.zip temp
+    fun findCartList(): List<Product> = productRepository.findCartList()
+    // cake.zip temp --->
+
     fun findProductList(): List<Product> = productRepository.findProductList()
 
 
